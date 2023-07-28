@@ -43,7 +43,7 @@ You can also just clone this repository directly if you do not want to track you
 #### Clone the repository
 
 ```shell
-git clone https://github.com/chaozwn/astronvim_with_coc_or_mason ~/.config/nvim/lua/user
+git clone git@github.com:woshixiaoguo/astronvim_with_coc_or_mason.git ~/.config/nvim/lua/user
 ```
 
 #### Start Neovim
