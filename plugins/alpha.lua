@@ -3,17 +3,14 @@ return {
   opts = function(_, opts)
     -- customize the dashboard header
     opts.section.header.val = {
-      [[]],
-      [[          ▀████▀▄▄              ▄█ ]],
-      [[            █▀    ▀▀▄▄▄▄▄    ▄▄▀▀█ ]],
-      [[    ▄        █          ▀▀▀▀▄  ▄▀  ]],
-      [[   ▄▀ ▀▄      ▀▄              ▀▄▀  ]],
-      [[  ▄▀    █     █▀   ▄█▀▄      ▄█    ]],
-      [[  ▀▄     ▀▄  █     ▀██▀     ██▄█   ]],
-      [[   ▀▄    ▄▀ █   ▄██▄   ▄  ▄  ▀▀ █  ]],
-      [[    █  ▄▀  █    ▀██▀    ▀▀ ▀▀  ▄▀  ]],
-      [[   █   █  █      ▄▄           ▄▀   ]],
+      [[                               __                ]],
+      [[  ___     ___    ___   __  __ /\_\    ___ ___    ]],
+      [[ / _ `\  / __`\ / __`\/\ \/\ \\/\ \  / __` __`\  ]],
+      [[/\ \/\ \/\  __//\ \_\ \ \ \_/ |\ \ \/\ \/\ \/\ \ ]],
+      [[\ \_\ \_\ \____\ \____/\ \___/  \ \_\ \_\ \_\ \_\]],
+      [[ \/_/\/_/\/____/\/___/  \/__/    \/_/\/_/\/_/\/_/]],
     }
+
     opts.config.opts.noautocmd = false
     local button = require("astronvim.utils").alpha_button
     opts.section.buttons.val = {
@@ -26,6 +23,7 @@ return {
       button("LDR f '", "  Bookmarks  "),
       button("LDR S l", "  Last Session  "),
     }
+    opts.section.footer.val = "Guoguo"
     return opts
   end,
 }
