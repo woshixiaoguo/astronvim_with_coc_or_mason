@@ -1,7 +1,8 @@
 -- Basic jukit options
 -- NOTE: debug :lua print(vim.inspect(vim.api.nvim_get_var("jukit")))
 vim.g.jukit_mappings = 0
-vim.g.jukit_shell_cmd = "/Users/mac/miniconda3/envs/python38/bin/ipython3"
+-- vim.g.jukit_shell_cmd = "/Users/mac/miniconda3/envs/python38/bin/ipython3"
+vim.g.jukit_shell_cmd = "/Users/guo/miniconda3/bin/ipython3"
 -- Specifies the command used to start a shell in the output split. Can also be an absolute path. Can also be any other shell command, e.g. `R`, `julia`, etc. (note that output saving is only possible for ipython)
 vim.g.jukit_terminal = "tmux"
 -- Terminal to use. Can be one of '', 'kitty', 'vimterm', 'nvimterm' or 'tmux'. If '' is given then will try to detect terminal (though this might fail, in which case it simply defaults to 'vimterm' or 'nvimterm' - depending on the output of `has("nvim")`)
