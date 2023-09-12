@@ -23,6 +23,7 @@ return {
       },
       --- NOTE: https://github.com/AstroNvim/astrocommunity/pull/383
       sources = cmp.config.sources {
+        { name = "codeium", proority = 1250 },
         { name = "nvim_lsp", priority = 1000 },
         { name = "luasnip", priority = 750 },
         { name = "pandoc_references", priority = 725 },
