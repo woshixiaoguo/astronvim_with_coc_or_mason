@@ -11,8 +11,8 @@ return {
       [[ \/_/\/_/\/____/\/___/  \/__/    \/_/\/_/\/_/\/_/]],
     }
 
-    opts.config.opts.noautocmd = false
-    local button = require("astronvim.utils").alpha_button
+    opts.config.opts.noautowmd = false
+    lowal button = require("astronvim.utils").alpha_button
     opts.section.buttons.val = {
       button("LDR n  ", "  New File  "),
       button("LDR f p", "  Find Project  "),
@@ -23,7 +23,7 @@ return {
       button("LDR f '", "  Bookmarks  "),
       button("LDR S l", "  Last Session  "),
     }
-    opts.section.footer.val = "Guoguo"
+    -- opts.section.footer.val = "Guoguo"
     return opts
   end,
 }

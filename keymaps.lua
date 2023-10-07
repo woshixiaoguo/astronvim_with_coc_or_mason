@@ -16,6 +16,9 @@ function M.mappings(maps)
   -- print(vim.fn.has "unix" == 1)
   local system = vim.loop.os_uname().sysname
 
+  maps.n["H"] = { "^", desc = "Go to start without blank" }
+  maps.n["L"] = { "$", desc = "Go to end without blank" }
+
   -- better search
   maps.n["n"] = { my_utils.better_search "n", desc = "Next search" }
   maps.n["N"] = { my_utils.better_search "N", desc = "Previous search" }
@@ -23,8 +26,14 @@ function M.mappings(maps)
   maps.v["K"] = { ":move '<-2<CR>gv-gv", desc = "Move line up", silent = true }
   maps.v["J"] = { ":move '>+1<CR>gv-gv", desc = "Move line down", silent = true }
 
+  maps.i["jk"] = { "<esc>" }
+
+  maps.n[";j"] = { "5j", desc = "Move 5 line down" }
+  maps.n[";k"] = { "5k", desc = "Move 5 line up" }
+
   if is_available "diffview.nvim" then
     maps.n["<leader>gD"] = { "<Cmd>DiffviewOpen<CR>", desc = "View diff with tab" }
+    maps.n["<leader>gq"] = { "<Cmd>DiffviewClose<CR>", desc = "View diff with tab" }
   end
 
   if is_available "nvim-dap-ui" then
@@ -172,8 +181,10 @@ function M.mappings(maps)
     if vim.g.jukit_html_viewer then
       maps.n["<leader>jmt"] =
         { "<cmd>call jukit#convert#save_nb_to_file(0,1,'html')<CR>", desc = "Convert file to html" }
-      maps.n["<leader>jmT"] =
-        { "<cmd>call jukit#convert#save_nb_to_file(1,1,'html')<CR>", desc = "Convert file to html with rerun all code" }
+      maps.n["<leader>jmT"] = {
+        "<cmd>call jukit#convert#save_nb_to_file(1,1,'html')<CR>",
+        desc = "Convert file to html with rerun all code",
+      }
     end
 
     if vim.g.jukit_pdf_viewer then
@@ -211,7 +222,6 @@ function M.mappings(maps)
     maps.v["<leader>n"] = { desc = "󰚩 Chatgpt" }
     -- NOTE: note that the plugin has a feature where the output from the model automatically gets saved to the g register and all code snippets get saved to the c register. These can be changed in the config.
     maps.n["<leader>no"] = { "<cmd>NeoAI<CR>", desc = "Toggle NeoAI" }
-    maps.n["<leader>ne"] = { "<cmd>NeoAIToggle<CR>", desc = "Toggle NeoAI" }
     maps.n["<leader>na"] = { "<cmd>NeoAIContext<CR>", desc = "Choose all code" }
     maps.v["<leader>nf"] = { ":NeoAIContext<CR>", desc = "Select code" }
     maps.n["<leader>ni"] = { ":NeoAIInject ", desc = "Inject code with prompt" }
@@ -219,16 +229,11 @@ function M.mappings(maps)
 
   maps.n["<leader><leader>"] = { desc = "󰍉 User" }
   -- maps.n["<leader>m"] = { desc = "󱂬 Translate" }
-  maps.n["s"] = "<Nop>"
-
-  -- close mason
+  --
   if is_available "refactoring.nvim" then
     maps.n["<leader>r"] = { desc = " Refactor" }
     maps.v["<leader>r"] = { desc = " Refactor" }
   end
-
-  maps.n["H"] = { "^", desc = "Go to start without blank" }
-  maps.n["L"] = { "$", desc = "Go to end without blank" }
 
   -- $跳到行尾不带空格(交换$和g_)
   maps.n["$"] = { "g_", desc = "Go to end without blank" }
@@ -301,22 +306,25 @@ function M.mappings(maps)
   maps.n["x"] = { '"_x', desc = "Cut without copy" }
 
   -- 分屏快捷键
-  maps.n["<leader>w"] = { desc = "󱂬 Window" }
-  maps.n["<leader>ww"] = { "<cmd><cr>", desc = "Save" }
-  maps.n["<leader>wc"] = { "<C-w>c", desc = "Close current screen" }
-  maps.n["<leader>wo"] = { "<C-w>o", desc = "Close other screen" }
+  maps.n["<leader>s"] = { desc = "󱂬 Screen" }
+  maps.n["<leader>ss"] = { "<cmd><cr>", desc = "Save" }
+  maps.n["<leader>sc"] = { "<C-w>c", desc = "Close current screen" }
+  maps.n["<leader>so"] = { "<C-w>o", desc = "Close other screen" }
+  maps.n["<leader>s="] = { "<C-w>=", desc = "Make all screen equal" }
+
   -- 多个窗口之间跳转
-  maps.n["<leader>w="] = { "<C-w>=", desc = "Make all window equal" }
   maps.n["<TAB>"] =
     { function() require("astronvim.utils.buffer").nav(vim.v.count > 0 and vim.v.count or 1) end, desc = "Next buffer" }
   maps.n["<S-TAB>"] = {
     function() require("astronvim.utils.buffer").nav(-(vim.v.count > 0 and vim.v.count or 1)) end,
     desc = "Previous buffer",
   }
+  maps.n[";l"] = maps.n["<TAB>"]
+  maps.n[";h"] = maps.n["<S-TAB>"]
   maps.n["<leader>bo"] =
     { function() require("astronvim.utils.buffer").close_all(true) end, desc = "Close all buffers except current" }
-  maps.n["<leader>ba"] = { function() require("astronvim.utils.buffer").close_all() end, desc = "Close all buffers" }
   maps.n["<leader>bc"] = { function() require("astronvim.utils.buffer").close() end, desc = "Close buffer" }
+  maps.n["<leader>ba"] = { function() require("astronvim.utils.buffer").close_all() end, desc = "Close all buffers" }
   maps.n["<leader>bC"] =
     { function() require("astronvim.utils.buffer").close(0, true) end, desc = "Force close buffer" }
   maps.n["<leader>bn"] = { "<cmd>tabnew<cr>", desc = "New tab" }
@@ -333,59 +341,34 @@ function M.mappings(maps)
   maps.n["<leader>lm"] = { ":LspRestart<CR>", desc = "Lsp restart" }
   maps.n["<leader>lg"] = { ":LspLog<CR>", desc = "Show lsp log" }
 
-  -- Comment
-  if is_available "Comment.nvim" then
-    maps.n["<C-/>"] = {
-      function() require("Comment.api").toggle.linewise.count(vim.v.count > 0 and vim.v.count or 1) end,
-      desc = "Comment line",
-    }
-    maps.v["<C-/>"] =
-      { "<esc><cmd>lua require('Comment.api').toggle.linewise(vim.fn.visualmode())<cr>", desc = "Toggle comment line" }
-  end
-  maps.v["<leader>/"] = false
-  maps.n["<leader>/"] = false
+  -- if is_available "flash.nvim" then
+  --   maps.n["<leader>s"] = {
+  --     function() require("flash").jump() end,
+  --     desc = "Flash",
+  --   }
+  --   maps.x["<leader>s"] = {
+  --     function() require("flash").jump() end,
+  --     desc = "Flash",
+  --   }
+  --   maps.o["<leader>s"] = {
+  --     function() require("flash").jump() end,
+  --     desc = "Flash",
+  --   }
+  --   maps.n["<leader><leader>s"] = {
+  --     function() require("flash").treesitter() end,
+  --     desc = "Flash Treesitter",
+  --   }
+  --   maps.x["<leader><leader>s"] = {
+  --     function() require("flash").treesitter() end,
+  --     desc = "Flash Treesitter",
+  --   }
+  --   maps.o["<leader><leader>s"] = {
+  --     function() require("flash").treesitter() end,
+  --     desc = "Flash Treesitter",
+  --   }
+  -- end
 
-  if is_available "flash.nvim" then
-    maps.n["<leader>s"] = {
-      function() require("flash").jump() end,
-      desc = "Flash",
-    }
-    maps.x["<leader>s"] = {
-      function() require("flash").jump() end,
-      desc = "Flash",
-    }
-    maps.o["<leader>s"] = {
-      function() require("flash").jump() end,
-      desc = "Flash",
-    }
-    maps.n["<leader><leader>s"] = {
-      function() require("flash").treesitter() end,
-      desc = "Flash Treesitter",
-    }
-    maps.x["<leader><leader>s"] = {
-      function() require("flash").treesitter() end,
-      desc = "Flash Treesitter",
-    }
-    maps.o["<leader><leader>s"] = {
-      function() require("flash").treesitter() end,
-      desc = "Flash Treesitter",
-    }
-  end
-
-  if is_available "substitute.nvim" then
-    -- substitute, 交换和替换插件, 寄存器中的值，将会替换到s位置, s{motion}
-    maps.n["s"] = { require("substitute").operator, desc = "Replace with {motion}" }
-    maps.n["ss"] = { require("substitute").line, desc = "Replace with line" }
-    maps.n["S"] = { require("substitute").eol, desc = "Replace until eol" }
-    maps.v["p"] = { require("substitute").visual, desc = "Replace in visual" }
-    -- exchange
-    maps.n["sx"] = { require("substitute.exchange").operator, desc = "Exchange with {motion}" }
-    maps.n["sxx"] = { require("substitute.exchange").line, desc = "Exchange with line" }
-    maps.n["sxc"] = { require("substitute.exchange").cancel, desc = "Exchange exchange" }
-    maps.v["X"] = { require("substitute.exchange").visual, desc = "Exchange in visual" }
-  end
-
-  -- trouble
+  -- Trouble
   if is_available "trouble.nvim" then
     maps.n["<leader>x"] = { desc = " Trouble" }
     maps.n["<leader>xx"] = { "<cmd>TroubleToggle document_diagnostics<cr>", desc = "Document Diagnostics (Trouble)" }
@@ -395,6 +378,7 @@ function M.mappings(maps)
     maps.n["<leader>xT"] = { "<cmd>TodoTrouble<cr>", desc = "TODOs (Trouble)" }
   end
 
+  -- Tools
   maps.n["<leader>z"] = { desc = " Tools" }
   if is_available "ccc.nvim" then
     maps.n["<leader>zp"] = { "<CMD>CccPick<CR>", desc = "Pick color" }
