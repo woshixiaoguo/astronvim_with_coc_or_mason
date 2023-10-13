@@ -341,6 +341,9 @@ function M.mappings(maps)
   maps.n["<leader>lm"] = { ":LspRestart<CR>", desc = "Lsp restart" }
   maps.n["<leader>lg"] = { ":LspLog<CR>", desc = "Show lsp log" }
 
+  if is_available "aerial.nvim" then
+    maps.n["<leader>uo"] = { function() require("aerial").toggle() end, desc = "Symbols outline" }
+  end
   -- if is_available "flash.nvim" then
   --   maps.n["<leader>s"] = {
   --     function() require("flash").jump() end,
