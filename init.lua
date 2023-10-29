@@ -12,7 +12,7 @@ return {
       },
     },
   },
-  -- TODO
+  -- TODO: decouple lsp config
   lsp = {
     servers = { "jdtls" },
     setup_handlers = {
@@ -58,12 +58,15 @@ return {
         -- java-debug installation)
         local bundles = {
           vim.fn.glob(
-            jdb_path .. "/extension/server/com.microsoft.java.debug.plugin/target/com.microsoft.java.debug.plugin-*.jar",
+            jdb_path .. "/extension/server/com.microsoft.java.debug.plugin-*.jar",
             1
           ),
         }
+        -- local jtest_path = "/Users/guo/.local/share/nvim/mason/packages/java-test/extension/server/*.jar"
+        local jtest_path = "/Users/guo/opt/vscode-java-test/server/*.jar"
+
         -- java-test installation
-        -- vim.list_extend(bundles, vim.split(vim.fn.glob("/path/to/microsoft/vscode-java-test/server/*.jar", 1), "\n"))
+        vim.list_extend(bundles, vim.split(vim.fn.glob(jtest_path, 1), "\n"))
         --
         -- local capabilities = require("astronvim.utils.lsp").capabilities
         -- local extendedClientCapabilities = require("jdtls").extendedClientCapabilities
@@ -130,7 +133,12 @@ return {
               else
                 vim.notify "jdtls setup dap failed"
               end
-              -- require("dap.ext.vscode").load_launchjs() -- launch.json style in VSCode
+              -- launch.json style in VSCode
+              if pcall(function() require("dap.ext.vscode").load_launchjs() end) then
+                vim.notify 'dap.ext.vscode load launchjs'
+              else
+                vim.notify 'dap.ext.vscode load launchjs failed'
+              end
               if pcall(function() require("jdtls.dap").setup_dap_main_class_configs() end) then
                 vim.notify "jdtls.dap setup dap main class configs"
               else

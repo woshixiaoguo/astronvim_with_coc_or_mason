@@ -62,6 +62,14 @@ function M.mappings(maps)
         function() require("persistent-breakpoints.api").set_conditional_breakpoint() end,
         desc = "Conditional Breakpoint (S-F9)",
       }
+      maps.n["<leader>dk"] = {
+        function () require("jdtls").test_class() end,
+        desc = "Test class (DAP)"
+      }
+      maps.n["<leader>dj"] = {
+        function () require("jdtls").test_nearest_method() end,
+        desc = "Test method (DAP)"
+      }
     end
   end
 
